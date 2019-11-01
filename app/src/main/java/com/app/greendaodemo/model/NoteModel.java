@@ -3,6 +3,7 @@ package com.app.greendaodemo.model;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Property;
+import org.greenrobot.greendao.annotation.Generated;
 
 @Entity(nameInDb = "noteEntity")
 public class NoteModel {
@@ -19,6 +20,19 @@ public class NoteModel {
 
     @Property(nameInDb = "lastUpdatedAt")
     private Long lastUpdatedAt;
+
+
+    @Generated(hash = 1850738308)
+    public NoteModel(Long id, String note, Long createdAt, Long lastUpdatedAt) {
+        this.id = id;
+        this.note = note;
+        this.createdAt = createdAt;
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
+
+    @Generated(hash = 1532285157)
+    public NoteModel() {
+    }
 
 
     public Long getId() {

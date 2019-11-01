@@ -17,10 +17,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        targetCompatibility = '1.8'
+        sourceCompatibility = '1.8'
+    }
 }
 
 ext{
     greenDao = '3.2.2'
+    supportVersion = '28.0.0'
 }
 
 dependencies {
@@ -33,5 +38,19 @@ dependencies {
 
     //Add GreenDAO dependencies here
     implementation "org.greenrobot:greendao:$greenDao"
+
+    //Support design Dependencies
+    implementation "com.android.support:design:$supportVersion"
+
+    //CardView Dependencies
+    implementation "com.android.support:cardview-v7:$supportVersion"
+
+    //v4 Support Dependencies
+    implementation "com.android.support:support-v4:$supportVersion"
+
+    //Recyclerview Dependencies
+    implementation "com.android.support:recyclerview-v7:$supportVersion"
+
+
 
 }
