@@ -21,18 +21,23 @@ public class NoteModel {
     @Property(nameInDb = "lastUpdatedAt")
     private Long lastUpdatedAt;
 
+    @Property(nameInDb = "isActivated")
+    private boolean isActivated;
 
-    @Generated(hash = 1850738308)
-    public NoteModel(Long id, String note, Long createdAt, Long lastUpdatedAt) {
+    @Generated(hash = 1487902773)
+    public NoteModel(Long id, String note, Long createdAt, Long lastUpdatedAt,
+            boolean isActivated) {
         this.id = id;
         this.note = note;
         this.createdAt = createdAt;
         this.lastUpdatedAt = lastUpdatedAt;
+        this.isActivated = isActivated;
     }
 
     @Generated(hash = 1532285157)
     public NoteModel() {
     }
+
 
 
     public Long getId() {
@@ -67,6 +72,14 @@ public class NoteModel {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
+    public boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setActivated(boolean activated) {
+        isActivated = activated;
+    }
+
     @Override
     public String toString() {
         return "NoteModel{" +
@@ -74,6 +87,15 @@ public class NoteModel {
                 ", note='" + note + '\'' +
                 ", createdAt=" + createdAt +
                 ", lastUpdatedAt=" + lastUpdatedAt +
+                ", isActivated=" + isActivated +
                 '}';
+    }
+
+    public boolean getIsActivated() {
+        return this.isActivated;
+    }
+
+    public void setIsActivated(boolean isActivated) {
+        this.isActivated = isActivated;
     }
 }
