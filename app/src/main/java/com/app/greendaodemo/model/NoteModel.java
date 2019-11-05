@@ -9,11 +9,14 @@ import org.greenrobot.greendao.annotation.Generated;
 public class NoteModel {
 
     @Id(autoincrement = true)
-    @Property(nameInDb = "noteId")
+    @Property(nameInDb = "id")
     private Long id;
 
-    @Property(nameInDb = "note")
-    private String note;
+    @Property(nameInDb = "title")
+    private String title;
+
+    @Property(nameInDb = "description")
+    private String description;
 
     @Property(nameInDb = "createdAt")
     private Long createdAt;
@@ -22,13 +25,14 @@ public class NoteModel {
     private Long lastUpdatedAt;
 
     @Property(nameInDb = "isActivated")
-    private boolean isActivated;
+    private Boolean isActivated;
 
-    @Generated(hash = 1487902773)
-    public NoteModel(Long id, String note, Long createdAt, Long lastUpdatedAt,
-            boolean isActivated) {
+    @Generated(hash = 169376099)
+    public NoteModel(Long id, String title, String description, Long createdAt,
+            Long lastUpdatedAt, Boolean isActivated) {
         this.id = id;
-        this.note = note;
+        this.title = title;
+        this.description = description;
         this.createdAt = createdAt;
         this.lastUpdatedAt = lastUpdatedAt;
         this.isActivated = isActivated;
@@ -38,26 +42,32 @@ public class NoteModel {
     public NoteModel() {
     }
 
-
-
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getNote() {
-        return note;
+    public String getTitle() {
+        return this.title;
     }
 
-    public void setNote(String note) {
-        this.note = note;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Long getCreatedAt() {
-        return createdAt;
+        return this.createdAt;
     }
 
     public void setCreatedAt(Long createdAt) {
@@ -65,37 +75,19 @@ public class NoteModel {
     }
 
     public Long getLastUpdatedAt() {
-        return lastUpdatedAt;
+        return this.lastUpdatedAt;
     }
 
     public void setLastUpdatedAt(Long lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 
-    public boolean isActivated() {
-        return isActivated;
-    }
-
-    public void setActivated(boolean activated) {
-        isActivated = activated;
-    }
-
-    @Override
-    public String toString() {
-        return "NoteModel{" +
-                "id=" + id +
-                ", note='" + note + '\'' +
-                ", createdAt=" + createdAt +
-                ", lastUpdatedAt=" + lastUpdatedAt +
-                ", isActivated=" + isActivated +
-                '}';
-    }
-
-    public boolean getIsActivated() {
+    public Boolean getIsActivated() {
         return this.isActivated;
     }
 
-    public void setIsActivated(boolean isActivated) {
+    public void setIsActivated(Boolean isActivated) {
         this.isActivated = isActivated;
     }
+
 }
