@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:background="@color/black_low_emphasis">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="@dimen/pad_5dp"
+        app:cardCornerRadius="@dimen/pad_5dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/pad_8dp"
+            android:layout_marginTop="@dimen/pad_20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_title"
+                style="@style/material_et_style"
+                android:hint="@string/title"
+                android:singleLine="true"
+                android:inputType="textPersonName" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_note_description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btn_save"
+        android:layout_below="@+id/cv_note_title"
+        android:layout_margin="@dimen/pad_5dp"
+        app:cardCornerRadius="@dimen/pad_5dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/pad_8dp"
+            android:layout_marginTop="@dimen/pad_20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_description"
+                style="@style/material_et_style"
+                android:hint="@string/take_notes"
+                android:inputType="textMultiLine"
+                android:lines="28"
+                android:scrollbars="vertical"
+                android:gravity="top"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_save"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/fab_size_normal"
+        android:layout_alignParentBottom="true"
+        android:text="@string/save"
+        android:layout_marginTop="@dimen/pad_5dp"
+        android:textSize="@dimen/dim_20sp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white_high_emphasis"/>
+
+
+</RelativeLayout>

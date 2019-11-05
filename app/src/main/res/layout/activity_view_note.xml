@@ -43,6 +43,7 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/pad_16dp"
         app:srcCompat="@drawable/icon_add_white"
+        app:maxImageSize="@dimen/pad_40dp"
         app:elevation="@dimen/pad_3dp" />
 
 

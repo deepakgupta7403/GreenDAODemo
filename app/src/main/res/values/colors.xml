@@ -4,5 +4,16 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
+    <color name="black">#000000</color>
+    <color name="black_high_emphasis">#DE000000</color>
+    <color name="black_medium_emphasis">#99000000</color>
+    <color name="black_low_emphasis">#61000000</color>
+
     <color name="white">#FFFFFF</color>
+    <color name="white_high_emphasis">#DEFFFFFF</color>
+    <color name="white_medium_emphasis">#99FFFFFF</color>
+    <color name="white_low_emphasis">#61FFFFFF</color>
+
+
+    <color name="transparent">#00000000</color>
 </resources>
