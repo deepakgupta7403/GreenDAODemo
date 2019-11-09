@@ -9,6 +9,8 @@
     <color name="black_medium_emphasis">#99000000</color>
     <color name="black_low_emphasis">#61000000</color>
 
+    <color name="black_ultra_low_emphasis">#33000000</color>
+
     <color name="white">#FFFFFF</color>
     <color name="white_high_emphasis">#DEFFFFFF</color>
     <color name="white_medium_emphasis">#99FFFFFF</color>
