@@ -47,8 +47,9 @@ greenDAO is an `open source` Android ORM making development for SQLite databases
 - [ ] Then use this plugin in the app/build.gradle, below com.android.application plugin
 - [ ] GreenDAO requires us to create the schema of the table in the form of a class with greenDAO annotations.
 - [ ] Explore the DAO generated classes at app/build/generated/source/greendao. We can see few classes in this folder.
+- [ ] Create Custome Class for GreenDAO new DB Version modification handling.
 - [ ] To use the database we need to construct the DaoSession Object in Application Class.
-- [ ] Test the table in the Main activity.
+- [ ] Test the data manipulation in the activity.
 - [ ] specify the greendao schema version of the database in the app/build.gradle.
 
 
@@ -128,3 +129,64 @@ public class NoteModel {
 
 First two classes is Unique but third classes is depend on your schema table or GreenDAO implemented POJO Model.
 ```
+
+- [X] Create Custome Class for GreenDAO new DB Version modification handling
+
+This Class we create because with a new app version, We want to modify the database schema or alter the table. For this purpose provide a custom OpenHelper to the DaoMaster, If we don't want to update database then we Can use GreenDAO created Class.
+```
+public class MyDBOpenHelper extends DaoMaster.OpenHelper {
+
+    public MyDBOpenHelper(Context context, String name) {
+        super(context, name);
+    }
+
+    public MyDBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory) {
+        super(context, name, factory);
+    }
+
+    @Override
+    public void onUpgrade(Database db, int oldVersion, int newVersion) {
+        super.onUpgrade(db, oldVersion, newVersion);
+        Log.d("DEBUG", "DB_OLD_VERSION : " + oldVersion + ", DB_NEW_VERSION : " + newVersion);
+        DaoMaster.dropAllTables(db,true);
+        DaoMaster.createAllTables(db,true);
+    }
+}
+```
+
+
+- [X] To use the database we need to construct the DaoSession Object in Application Class.
+
+Create A class MainApplication which extends android.app.Application and mention it in the AndroidManifest.xml
+```
+public class MainApplication extends Application {
+    private DaoSession session;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        session = new DaoMaster(new MyDBOpenHelper(this,"MyGreenDAODatabase.db").getWritableDb()).newSession();
+    }
+
+    public DaoSession getSession() {
+        return session;
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+    }
+}
+```
+
+In AndroidManifest.xml add android:name=".MainApplication":
+
+```
+application
+...
+android:name=".MainApplication"
+...
+```
+
+
