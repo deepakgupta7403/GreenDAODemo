@@ -89,7 +89,7 @@ public class ViewNoteActivity extends AppCompatActivity {
 
         @Override
         public int getItemCount() {
-            return mList.size() + 1;
+            return mList.size();
         }
 
         public class MainViewHolder extends RecyclerView.ViewHolder {
