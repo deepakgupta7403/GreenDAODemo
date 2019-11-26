@@ -13,7 +13,8 @@
         app:cardCornerRadius="@dimen/pad_10dp"
         android:layout_marginTop="@dimen/pad_10dp"
         android:layout_marginLeft="@dimen/pad_15dp"
-        android:layout_marginRight="@dimen/pad_15dp">
+        android:layout_marginRight="@dimen/pad_15dp"
+        android:layout_marginBottom="@dimen/pad_5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,8 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:textSize="@dimen/dim_22sp"
-                android:text="@string/title"
+                android:textSize="@dimen/dim_20sp"
                 android:textColor="@color/black_high_emphasis"
                 android:gravity="center|left"/>
 
@@ -38,10 +38,17 @@
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/dim_18sp"
-                android:text="@string/take_notes"
+                android:textSize="@dimen/dim_16sp"
                 android:textColor="@color/black_medium_emphasis"
                 android:gravity="center|left"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dim_11sp"
+                android:textColor="@color/black_medium_emphasis"
+                android:gravity="center|right"/>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
@@ -54,11 +61,10 @@
         android:layout_marginLeft="@dimen/pad_5dp">
 
         <CheckBox
-            android:id="@+id/checkb"
+            android:id="@+id/cb_delete"
             android:layout_width="@dimen/pad_25dp"
             android:layout_height="@dimen/pad_25dp"
             android:button="@drawable/round_checkbox"
-            android:checked="true"
             android:layout_centerInParent="true" />
 
     </RelativeLayout>

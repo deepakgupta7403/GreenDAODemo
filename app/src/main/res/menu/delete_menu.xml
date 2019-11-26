@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/item_delete"
+        android:title="@string/delete_notes"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_delete_white"/>
+    <item
+        android:id="@+id/item_select_all"
+        android:title="@string/delete_notes"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_select_all_white"
+        android:visible="false"/>
+    <item
+        android:id="@+id/item_unselect_all"
+        android:title="@string/delete_notes"
+        app:showAsAction="always"
+        android:icon="@drawable/icon_delete_white"
+        android:visible="false"/>
+
+</menu>

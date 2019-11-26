@@ -5,6 +5,7 @@
     <string name="notes_desc">Notes icon</string>
     <string name="take_notes">Take Note</string>
     <string name="add_notes">Add Note</string>
+    <string name="delete_notes">Delete Note</string>
     <string name="save">Save</string>
     <string name="title">Title</string>
     <string name="view_notes">View Notes</string>

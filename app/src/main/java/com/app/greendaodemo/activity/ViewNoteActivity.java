@@ -3,11 +3,15 @@ package com.app.greendaodemo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +25,8 @@ import com.app.greendaodemo.model.NoteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ViewNoteActivity extends AppCompatActivity {
     RecyclerView rv_view_notes;
@@ -28,7 +34,8 @@ public class ViewNoteActivity extends AppCompatActivity {
     LinearLayout ll_no_notes_found;
     Context context;
     RecyclerViewAdapter recyclerViewAdapter;
-    ArrayList<NoteModel> noteModels = new ArrayList<>();
+    List<NoteModel> noteModels = new ArrayList<>();
+    HashMap<Long,NoteModel> noteModelHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,6 @@ public class ViewNoteActivity extends AppCompatActivity {
         context = getApplicationContext();
         setViews();
         initRecyclerView();
-
 
         fab_add_notes.setOnClickListener(v -> {
             Intent intent = new Intent(context, AddNoteActivity.class);
@@ -66,9 +72,9 @@ public class ViewNoteActivity extends AppCompatActivity {
     }
 
     private class RecyclerViewAdapter extends RecyclerView.Adapter {
-        ArrayList<NoteModel> mList;
+        List<NoteModel> mList;
 
-        public RecyclerViewAdapter(ArrayList<NoteModel> mList) {
+        public RecyclerViewAdapter(List<NoteModel> mList) {
             this.mList = mList;
         }
 
@@ -81,7 +87,40 @@ public class ViewNoteActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
-//            NoteModel noteModel = mList.get(position);
+            NoteModel noteModel = mList.get(position);
+            MainViewHolder viewHolder = (MainViewHolder) holder;
+
+            if (!TextUtils.isEmpty(noteModel.getTitle())) {
+                viewHolder.tv_title.setText(noteModel.getTitle());
+            } else {
+                viewHolder.tv_title.setVisibility(View.GONE);
+            }
+
+            if (!TextUtils.isEmpty(noteModel.getDescription())) {
+                viewHolder.tv_description.setText(noteModel.getDescription());
+            } else {
+                viewHolder.tv_description.setVisibility(View.GONE);
+            }
+
+            if (noteModel.getLastUpdatedAt() != null) {
+                viewHolder.tv_time.setText(MyUtils.getDateTimeFromMillies(noteModel.getLastUpdatedAt()));
+            }
+
+            viewHolder.cb_delete.setOnCheckedChangeListener(null);
+            if (noteModelHashMap.containsKey(noteModel.getId())) {
+                viewHolder.cb_delete.setChecked(true);
+            } else {
+                viewHolder.cb_delete.setChecked(false);
+            }
+
+            viewHolder.cb_delete.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+                if (isChecked) {
+                    noteModelHashMap.put(noteModel.getId(), noteModel);
+                } else {
+                    noteModelHashMap.remove(noteModel.getId());
+                }
+            });
+
 
         }
 
@@ -91,19 +130,44 @@ public class ViewNoteActivity extends AppCompatActivity {
         }
 
         public class MainViewHolder extends RecyclerView.ViewHolder {
-//            Button btn_delete;
+            CheckBox cb_delete;
+            TextView tv_title, tv_description, tv_time;
+
 
             public MainViewHolder(View view) {
                 super(view);
-//                btn_delete = (Button) findViewById(R.id.btn_delete);
+                cb_delete = (CheckBox) view.findViewById(R.id.cb_delete);
 
+                tv_title = (TextView) view.findViewById(R.id.tv_title);
+                tv_description = (TextView) view.findViewById(R.id.tv_description);
+                tv_time = (TextView) view.findViewById(R.id.tv_time);
             }
+        }
+    }
+
+    private void notifyDatasetChanged() {
+        if (recyclerViewAdapter != null) {
+            recyclerViewAdapter.notifyDataSetChanged();
+        }
+        checkAndHandleNoData();
+    }
+
+    private void checkAndHandleNoData() {
+        if (noteModels != null && !noteModels.isEmpty()) {
+            ll_no_notes_found.setVisibility(View.GONE);
+        } else {
+            ll_no_notes_found.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.e("ListIsEmpty", NoteOperation.getAllNotes().toString());
+        List<NoteModel> noteModelList = NoteOperation.getAllNotes();
+        noteModels.clear();
+        if (noteModelList != null && !noteModelList.isEmpty()) {
+            noteModels.addAll(noteModelList);
+            notifyDatasetChanged();
+        }
     }
 }
