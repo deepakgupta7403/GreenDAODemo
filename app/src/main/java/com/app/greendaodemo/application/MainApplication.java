@@ -1,22 +1,30 @@
 package com.app.greendaodemo.application;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.app.greendaodemo.databasehelper.MyDBOpenHelper;
 import com.app.greendaodemo.model.DaoMaster;
 import com.app.greendaodemo.model.DaoSession;
+import com.facebook.stetho.Stetho;
 
 public class MainApplication extends Application {
-    private DaoSession session;
+    private static DaoSession session;
+    private static MainApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        instance = this;
         session = new DaoMaster(new MyDBOpenHelper(this,"MyGreenDAODatabase.db").getWritableDb()).newSession();
+        Stetho.initializeWithDefaults(this);
     }
 
-    public DaoSession getSession() {
+    public static synchronized MainApplication getInstance() {
+        return instance;
+    }
+
+    public static synchronized DaoSession getSession() {
         return session;
     }
 

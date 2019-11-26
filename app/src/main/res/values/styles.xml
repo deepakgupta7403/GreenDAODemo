@@ -23,4 +23,11 @@
         <item name="android:maxLines">1</item>
     </style>
 
+    <style name="Widget.Button.White.BlueText.BlueText.FrameImage" parent="@android:style/Widget.Button">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+    </style>
+
 </resources>

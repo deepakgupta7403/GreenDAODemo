@@ -4,8 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/pad_5dp"
-    android:orientation="vertical"
-    app:cardBackgroundColor="@android:color/holo_orange_light">
+    android:orientation="vertical">
 
 
     <androidx.cardview.widget.CardView
@@ -13,7 +12,8 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/pad_10dp"
         android:layout_marginTop="@dimen/pad_10dp"
-        android:layout_marginLeft="@dimen/pad_15dp">
+        android:layout_marginLeft="@dimen/pad_15dp"
+        android:layout_marginRight="@dimen/pad_15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,6 +58,7 @@
             android:layout_width="@dimen/pad_25dp"
             android:layout_height="@dimen/pad_25dp"
             android:button="@drawable/round_checkbox"
+            android:checked="true"
             android:layout_centerInParent="true" />
 
     </RelativeLayout>

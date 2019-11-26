@@ -3,10 +3,10 @@ package com.app.greendaodemo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.greendaodemo.R;
 import com.app.greendaodemo.Utility.MyUtils;
+import com.app.greendaodemo.databasehelper.NoteOperation;
 import com.app.greendaodemo.model.NoteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -35,9 +36,13 @@ public class ViewNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_note);
         context = getApplicationContext();
         setViews();
-        setOnClickHandler();
         initRecyclerView();
 
+
+        fab_add_notes.setOnClickListener(v -> {
+            Intent intent = new Intent(context, AddNoteActivity.class);
+            startActivity(intent);
+        });
     }
 
 
@@ -48,13 +53,6 @@ public class ViewNoteActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(MyUtils.getStringResources(context, R.string.view_notes));
         }
-    }
-
-    private void setOnClickHandler() {
-        fab_add_notes.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AddNoteActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void initRecyclerView() {
@@ -101,5 +99,11 @@ public class ViewNoteActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.e("ListIsEmpty", NoteOperation.getAllNotes().toString());
     }
 }
