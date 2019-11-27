@@ -1,17 +1,18 @@
 package com.app.greendaodemo.activity;
 
+import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import com.app.greendaodemo.Utility.MyUtils;
 import com.app.greendaodemo.databasehelper.NoteOperation;
 import com.app.greendaodemo.model.NoteModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +37,7 @@ public class ViewNoteActivity extends AppCompatActivity {
     Context context;
     RecyclerViewAdapter recyclerViewAdapter;
     List<NoteModel> noteModels = new ArrayList<>();
-    HashMap<Long,NoteModel> noteModelHashMap = new HashMap<>();
+    HashMap<Long, NoteModel> noteModelHashMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,9 @@ public class ViewNoteActivity extends AppCompatActivity {
         initRecyclerView();
 
         fab_add_notes.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AddNoteActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(context, AddNoteActivity.class);
+//            startActivity(intent);
+            addNoteDialogbox(ViewNoteActivity.this);
         });
     }
 
@@ -169,5 +172,40 @@ public class ViewNoteActivity extends AppCompatActivity {
             noteModels.addAll(noteModelList);
             notifyDatasetChanged();
         }
+    }
+
+    private void addNoteDialogbox(Context context) {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.add_note_view);
+        dialog.setTitle("Add Note");
+
+        TextInputEditText tiet_title = dialog.findViewById(R.id.tiet_title);
+        TextInputEditText tiet_description = dialog.findViewById(R.id.tiet_description);
+
+        dialog.setOnDismissListener(dialogInterface -> {
+            if (!TextUtils.isEmpty(tiet_title.getText().toString().trim()) || !TextUtils.isEmpty(tiet_description.getText().toString().trim())) {
+                NoteModel noteModel = new NoteModel();
+                if (!TextUtils.isEmpty(tiet_title.getText().toString().trim())) {
+                    noteModel.setTitle(tiet_title.getText().toString().trim());
+                }
+                if (!TextUtils.isEmpty(tiet_description.getText().toString().trim())) {
+                    noteModel.setDescription(tiet_description.getText().toString().trim());
+                }
+
+                noteModel.setCreatedAt(System.currentTimeMillis());
+                noteModel.setLastUpdatedAt(System.currentTimeMillis());
+                noteModel.setIsActivated(true);
+                NoteOperation.insertNoteData(noteModel);
+            }
+            List<NoteModel> noteModelList = NoteOperation.getAllNotes();
+            noteModels.clear();
+            if (noteModelList != null && !noteModelList.isEmpty()) {
+                noteModels.addAll(noteModelList);
+                notifyDatasetChanged();
+            }
+        });
+
+
+        dialog.show();
     }
 }
