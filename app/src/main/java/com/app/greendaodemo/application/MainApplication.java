@@ -1,7 +1,6 @@
 package com.app.greendaodemo.application;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.app.greendaodemo.databasehelper.MyDBOpenHelper;
 import com.app.greendaodemo.model.DaoMaster;
@@ -16,7 +15,7 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        session = new DaoMaster(new MyDBOpenHelper(this,"MyGreenDAODatabase.db").getWritableDb()).newSession();
+        session = new DaoMaster(new MyDBOpenHelper(this,"notes.db").getWritableDb()).newSession();
         Stetho.initializeWithDefaults(this);
     }
 

@@ -39,6 +39,10 @@ public class NoteOperation {
         daoSession.getNoteModelDao().deleteByKeyInTx(id);
     }
 
+    public static void deleteNoteList(List<NoteModel> noteModels) {
+        daoSession.getNoteModelDao().deleteInTx(noteModels);
+    }
+
     public static void deleteAllNote() {
         daoSession.getNoteModelDao().deleteAll();
     }

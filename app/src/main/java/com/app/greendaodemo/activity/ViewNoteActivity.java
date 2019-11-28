@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,6 +39,7 @@ public class ViewNoteActivity extends AppCompatActivity {
     RecyclerViewAdapter recyclerViewAdapter;
     List<NoteModel> noteModels = new ArrayList<>();
     HashMap<Long, NoteModel> noteModelHashMap = new HashMap<>();
+    AppCompatImageButton ib_delete, ib_select_unselect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,6 @@ public class ViewNoteActivity extends AppCompatActivity {
         initRecyclerView();
 
         fab_add_notes.setOnClickListener(v -> {
-//            Intent intent = new Intent(context, AddNoteActivity.class);
-//            startActivity(intent);
             addNoteDialogbox(ViewNoteActivity.this);
         });
     }
@@ -58,10 +58,22 @@ public class ViewNoteActivity extends AppCompatActivity {
     private void setViews() {
         fab_add_notes = (FloatingActionButton) findViewById(R.id.fab_add_notes);
         ll_no_notes_found = (LinearLayout) findViewById(R.id.ll_no_notes_found);
+        ib_delete = (AppCompatImageButton) findViewById(R.id.ib_delete);
+        ib_select_unselect = (AppCompatImageButton) findViewById(R.id.ib_select_unselect);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(MyUtils.getStringResources(context, R.string.view_notes));
-        }
+        ib_delete.setOnClickListener(v -> {
+            for (NoteModel noteModel : noteModelHashMap.values()) {
+                NoteOperation.deleteNote(noteModel);
+            }
+            noteModelHashMap.clear();
+            notifyDatasetChanged();
+            ib_delete.setVisibility(View.GONE);
+        });
+
+        ib_select_unselect.setOnClickListener(v -> {
+            Toast.makeText(context,"SELECT UNSELECT",Toast.LENGTH_SHORT).show();
+        });
+
     }
 
     private void initRecyclerView() {
@@ -72,6 +84,14 @@ public class ViewNoteActivity extends AppCompatActivity {
         recyclerViewAdapter = new RecyclerViewAdapter(noteModels);
         rv_view_notes.setAdapter(recyclerViewAdapter);
 
+    }
+
+    private void checkAndHandleDeleteNote() {
+        if (noteModelHashMap.size() == 0) {
+            ib_delete.setVisibility(View.GONE);
+        } else {
+            ib_delete.setVisibility(View.VISIBLE);
+        }
     }
 
     private class RecyclerViewAdapter extends RecyclerView.Adapter {
@@ -122,6 +142,7 @@ public class ViewNoteActivity extends AppCompatActivity {
                 } else {
                     noteModelHashMap.remove(noteModel.getId());
                 }
+                checkAndHandleDeleteNote();
             });
 
 
@@ -176,8 +197,10 @@ public class ViewNoteActivity extends AppCompatActivity {
 
     private void addNoteDialogbox(Context context) {
         Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.add_note_view);
-        dialog.setTitle("Add Note");
+        Window dialogWindow = dialog.getWindow();
+        dialogWindow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 
         TextInputEditText tiet_title = dialog.findViewById(R.id.tiet_title);
         TextInputEditText tiet_description = dialog.findViewById(R.id.tiet_description);

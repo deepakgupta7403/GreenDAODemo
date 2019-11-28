@@ -1,50 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".activity.ViewNoteActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/pad_56dp"
+        android:background="@color/colorPrimary"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="20"
+            android:gravity="left|center"
+            android:paddingLeft="@dimen/pad_25dp"
+            android:text="@string/view_notes"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dim_22sp" />
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_delete"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="@dimen/pad_50dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/icon_delete_white"
+            android:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/ib_select_unselect"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="@dimen/pad_50dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/icon_delete_white"
+            android:visibility="gone"/>
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_no_notes_found"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/ll_toolbar"
         android:gravity="center"
         android:orientation="vertical">
 
         <ImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/note_icon"
-            android:contentDescription="@string/notes_desc"/>
+            android:contentDescription="@string/notes_desc"
+            android:src="@drawable/note_icon" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/no_notes_found"
-            android:textSize="18sp"
-            android:gravity="center"/>
+            android:textSize="18sp" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_view_notes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"/>
+        android:layout_below="@+id/ll_toolbar"
+        android:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_notes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:fabSize="normal"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/pad_16dp"
-        app:srcCompat="@drawable/icon_add_white"
+        app:elevation="@dimen/pad_3dp"
+        app:fabSize="normal"
         app:maxImageSize="@dimen/pad_40dp"
-        app:elevation="@dimen/pad_3dp" />
+        app:backgroundTint="@color/colorAccent"
+        app:srcCompat="@drawable/icon_add_white" />
 
 
 </RelativeLayout>
