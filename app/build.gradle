@@ -27,6 +27,8 @@ android {
 ext{
     greenDao = '3.2.2'
     supportVersion = '28.0.0'
+    googleMaterial = '1.2.0-alpha02'
+    stetho = '1.5.1'
 }
 
 greendao{
@@ -56,8 +58,11 @@ dependencies {
     //Recyclerview Dependencies
     implementation "com.android.support:recyclerview-v7:$supportVersion"
 
-    //Facebook Stetho
-    implementation 'com.facebook.stetho:stetho:1.5.1'
+    //Facebook Stetho Dependencies
+    implementation "com.facebook.stetho:stetho:$stetho"
+
+//    //Google Material Dependencies
+//    implementation "com.google.android.material:material:$googleMaterial"
 
 
 }

@@ -66,12 +66,14 @@ public class ViewNoteActivity extends AppCompatActivity {
                 NoteOperation.deleteNote(noteModel);
             }
             noteModelHashMap.clear();
+            noteModels.clear();
+            noteModels.addAll(NoteOperation.getAllNotes());
             notifyDatasetChanged();
             ib_delete.setVisibility(View.GONE);
         });
 
         ib_select_unselect.setOnClickListener(v -> {
-            Toast.makeText(context,"SELECT UNSELECT",Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "SELECT UNSELECT", Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -145,6 +147,9 @@ public class ViewNoteActivity extends AppCompatActivity {
                 checkAndHandleDeleteNote();
             });
 
+            viewHolder.itemView.setOnClickListener(view -> {
+                viewNoteDialogbox(context,noteModel);
+            });
 
         }
 
@@ -226,6 +231,47 @@ public class ViewNoteActivity extends AppCompatActivity {
                 noteModels.addAll(noteModelList);
                 notifyDatasetChanged();
             }
+        });
+
+
+        dialog.show();
+    }
+
+    private void viewNoteDialogbox(Context context, NoteModel noteModel) {
+        Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.add_note_view);
+        Window dialogWindow = dialog.getWindow();
+        dialogWindow.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TextInputEditText tiet_title = dialog.findViewById(R.id.tiet_title);
+        TextInputEditText tiet_description = dialog.findViewById(R.id.tiet_description);
+
+        if (noteModel != null) {
+            if (!TextUtils.isEmpty(noteModel.getTitle())) {
+                tiet_title.setText(noteModel.getTitle());
+            }
+            if (!TextUtils.isEmpty(noteModel.getDescription())) {
+                tiet_description.setText(noteModel.getDescription());
+            }
+        }
+
+        dialog.setOnDismissListener(dialogInterface -> {
+            if (!TextUtils.isEmpty(tiet_title.getText().toString().trim()) || !TextUtils.isEmpty(tiet_description.getText().toString().trim())) {
+                if (!TextUtils.isEmpty(tiet_title.getText().toString().trim())) {
+                    noteModel.setTitle(tiet_title.getText().toString().trim());
+                }
+                if (!TextUtils.isEmpty(tiet_description.getText().toString().trim())) {
+                    noteModel.setDescription(tiet_description.getText().toString().trim());
+                }
+
+                noteModel.setLastUpdatedAt(System.currentTimeMillis());
+                noteModel.setIsActivated(true);
+                NoteOperation.updateNotes(noteModel);
+            }
+            noteModels.clear();
+            noteModels.addAll(NoteOperation.getAllNotes());
+            notifyDatasetChanged();
         });
 
 
