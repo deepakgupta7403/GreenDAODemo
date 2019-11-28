@@ -266,7 +266,7 @@ android {
 ...
 }
 
-greenDao{
+greendao{
     schemaVersion 1
 }
 
