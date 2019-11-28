@@ -49,8 +49,9 @@ greenDAO is an `open source` Android ORM making development for SQLite databases
 - [ ] Explore the DAO generated classes at app/build/generated/source/greendao. We can see few classes in this folder.
 - [ ] Create Custome Class for GreenDAO new DB Version modification handling.
 - [ ] To use the database we need to construct the DaoSession Object in Application Class.
+- [ ] Create one class for handling CRUD operation.
 - [ ] Test the data manipulation in the activity.
-- [ ] specify the greendao schema version of the database in the app/build.gradle.
+- [ ] specify the GreenDAO schema version of the database in the app/build.gradle.
 
 
 ### So, Let's start the coding.
@@ -160,16 +161,22 @@ public class MyDBOpenHelper extends DaoMaster.OpenHelper {
 Create A class MainApplication which extends android.app.Application and mention it in the AndroidManifest.xml
 ```
 public class MainApplication extends Application {
-    private DaoSession session;
+    private static DaoSession session;
+    private static MainApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        session = new DaoMaster(new MyDBOpenHelper(this,"MyGreenDAODatabase.db").getWritableDb()).newSession();
+        instance = this;
+        session = new DaoMaster(new MyDBOpenHelper(this,"notes.db").getWritableDb()).newSession();
+        Stetho.initializeWithDefaults(this);
     }
 
-    public DaoSession getSession() {
+    public static synchronized MainApplication getInstance() {
+        return instance;
+    }
+
+    public static synchronized DaoSession getSession() {
         return session;
     }
 
@@ -189,4 +196,85 @@ android:name=".MainApplication"
 ...
 ```
 
+- [X] Create one class for handling CRUD operation.
+NoteOperation class is created that hold the CRUD operation methods.
+```
+public class NoteOperation {
+
+    private static DaoSession daoSession = MainApplication.getSession();
+
+    public static void insertNoteData(NoteModel noteModel) {
+        daoSession.getNoteModelDao().insertInTx(noteModel);
+    }
+    public static void insertNoteDataList(List<NoteModel> noteModel) {
+        daoSession.getNoteModelDao().insertInTx(noteModel);
+    }
+    public static List<NoteModel> getAllNotes() {
+        return daoSession.getNoteModelDao().loadAll();
+    }
+    public static void updateNotes(NoteModel noteModel) {
+        daoSession.getNoteModelDao().updateInTx(noteModel);
+    }
+    public static void updateNoteList(List<NoteModel> noteModel) {
+        daoSession.getNoteModelDao().updateInTx(noteModel);
+    }
+    public static void deleteNote(NoteModel noteModel) {
+        daoSession.getNoteModelDao().delete(noteModel);
+    }
+    public static void deleteNote(Long id) {
+        daoSession.getNoteModelDao().deleteByKeyInTx(id);
+    }
+    public static void deleteAllNote() {
+        daoSession.getNoteModelDao().deleteAll();
+    }
+
+}
+```
+
+- [X] Test the data manipulation in the ViewNoteActivity  . 
+```
+public class ViewNoteActivity extends AppCompatActivity {
+    Context context;
+    List<NoteModel> noteModels = new ArrayList<>();
+    HashMap<Long, NoteModel> noteModelHashMap = new HashMap<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_note);
+        context = getApplicationContext();
+        
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        List<NoteModel> noteModelList = NoteOperation.getAllNotes();
+        noteModels.clear();
+        if (noteModelList != null && !noteModelList.isEmpty()) {
+            noteModels.addAll(noteModelList);
+        }
+    }
+
+```
+
+- [X] specify the greendao schema version of the database in the app/build.gradle.
+You will need to specify the schema version of the database so that you can distinguish the old version and new version when the entity schema is upgraded.Specify this add greendao schema in the app/build.gradle.
+```
+android {
+...
+...
+}
+
+greenDao{
+    schemaVersion 1
+}
+
+dependencies {
+...
+...
+}
+```
+
+When you upgrade the schema in the new app version, increase this schema Version. You should handle the upgrade code in onUpgrade method of the DbOpenHelper class.
 
