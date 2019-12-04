@@ -14,7 +14,7 @@
         android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="20"
@@ -37,7 +37,7 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="@dimen/pad_50dp"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/icon_delete_white"
+            app:srcCompat="@drawable/icon_select_all_white"
             android:visibility="gone"/>
 
 
@@ -51,13 +51,13 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:contentDescription="@string/notes_desc"
             android:src="@drawable/note_icon" />
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -83,7 +83,8 @@
         app:fabSize="normal"
         app:maxImageSize="@dimen/pad_40dp"
         app:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/icon_add_white" />
+        app:srcCompat="@drawable/icon_add_white"
+        app:tint="@color/white"/>
 
 
 </RelativeLayout>

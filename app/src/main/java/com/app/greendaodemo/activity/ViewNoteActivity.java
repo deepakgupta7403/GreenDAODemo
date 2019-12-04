@@ -2,21 +2,20 @@ package com.app.greendaodemo.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -70,11 +69,24 @@ public class ViewNoteActivity extends AppCompatActivity {
             noteModels.addAll(NoteOperation.getAllNotes());
             notifyDatasetChanged();
             ib_delete.setVisibility(View.GONE);
+            ib_select_unselect.setVisibility(View.GONE);
         });
 
         ib_select_unselect.setOnClickListener(v -> {
-            Toast.makeText(context, "SELECT UNSELECT", Toast.LENGTH_SHORT).show();
+            if (noteModelHashMap.size() != noteModels.size()) {
+                for (NoteModel noteModel : noteModels) {
+                    noteModelHashMap.put(noteModel.getId(), noteModel);
+                }
+                ib_select_unselect.setImageResource(R.drawable.icon_unselect_all_white);
+                notifyDatasetChanged();
+            } else {
+                noteModelHashMap.clear();
+                notifyDatasetChanged();
+                ib_select_unselect.setVisibility(View.GONE);
+                ib_delete.setVisibility(View.GONE);
+            }
         });
+
 
     }
 
@@ -88,11 +100,26 @@ public class ViewNoteActivity extends AppCompatActivity {
 
     }
 
-    private void checkAndHandleDeleteNote() {
+    private void checkAndHandleDeleteButton() {
         if (noteModelHashMap.size() == 0) {
             ib_delete.setVisibility(View.GONE);
+            ib_select_unselect.setVisibility(View.GONE);
         } else {
             ib_delete.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void checkAndHandleMultipleSelOpt() {
+        if (noteModelHashMap.size() == noteModels.size()) {
+            ib_select_unselect.setVisibility(View.VISIBLE);
+            ib_select_unselect.setImageResource(R.drawable.icon_unselect_all_white);
+        } else if (noteModelHashMap.isEmpty()) {
+            ib_select_unselect.setVisibility(View.GONE);
+        } else if (noteModels.size() > 1) {
+            ib_select_unselect.setVisibility(View.VISIBLE);
+            ib_select_unselect.setImageResource(R.drawable.icon_select_all_white);
+        } else {
+            ib_select_unselect.setVisibility(View.GONE);
         }
     }
 
@@ -144,11 +171,12 @@ public class ViewNoteActivity extends AppCompatActivity {
                 } else {
                     noteModelHashMap.remove(noteModel.getId());
                 }
-                checkAndHandleDeleteNote();
+                checkAndHandleDeleteButton();
+                checkAndHandleMultipleSelOpt();
             });
 
             viewHolder.itemView.setOnClickListener(view -> {
-                viewNoteDialogbox(context,noteModel);
+                viewNoteDialogbox(ViewNoteActivity.this, noteModel);
             });
 
         }
@@ -159,17 +187,17 @@ public class ViewNoteActivity extends AppCompatActivity {
         }
 
         public class MainViewHolder extends RecyclerView.ViewHolder {
-            CheckBox cb_delete;
-            TextView tv_title, tv_description, tv_time;
+            AppCompatCheckBox cb_delete;
+            AppCompatTextView tv_title, tv_description, tv_time;
 
 
             public MainViewHolder(View view) {
                 super(view);
-                cb_delete = (CheckBox) view.findViewById(R.id.cb_delete);
+                cb_delete = (AppCompatCheckBox) view.findViewById(R.id.cb_delete);
 
-                tv_title = (TextView) view.findViewById(R.id.tv_title);
-                tv_description = (TextView) view.findViewById(R.id.tv_description);
-                tv_time = (TextView) view.findViewById(R.id.tv_time);
+                tv_title = (AppCompatTextView) view.findViewById(R.id.tv_title);
+                tv_description = (AppCompatTextView) view.findViewById(R.id.tv_description);
+                tv_time = (AppCompatTextView) view.findViewById(R.id.tv_time);
             }
         }
     }
@@ -273,7 +301,6 @@ public class ViewNoteActivity extends AppCompatActivity {
             noteModels.addAll(NoteOperation.getAllNotes());
             notifyDatasetChanged();
         });
-
 
         dialog.show();
     }

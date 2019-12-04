@@ -46,23 +46,24 @@ dependencies {
     //Add GreenDAO dependencies here
     implementation "org.greenrobot:greendao:$greenDao"
 
-    //Support design Dependencies
-    implementation "com.android.support:design:$supportVersion"
 
-    //CardView Dependencies
-    implementation "com.android.support:cardview-v7:$supportVersion"
+    //implementation "com.android.support:design:$supportVersion"                 //Support design Dependencies
+    implementation "com.google.android.material:material:$googleMaterial"       //Google Material Dependencies (AndroidX)
 
-    //v4 Support Dependencies
-    implementation "com.android.support:support-v4:$supportVersion"
 
-    //Recyclerview Dependencies
-    implementation "com.android.support:recyclerview-v7:$supportVersion"
+    //implementation "com.android.support:cardview-v7:$supportVersion"            //CardView Dependencies
+    implementation 'androidx.cardview:cardview:1.0.0'                           //CardView Material Dependencies (AndroidX)
 
-    //Facebook Stetho Dependencies
-    implementation "com.facebook.stetho:stetho:$stetho"
 
-//    //Google Material Dependencies
-//    implementation "com.google.android.material:material:$googleMaterial"
+    //implementation "com.android.support:support-v4:$supportVersion"             //v4 Support Dependencies
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'                    //v4 Support Material Dependencies (AndroidX)
+
+
+    //implementation "com.android.support:recyclerview-v7:$supportVersion"        //Recyclerview Dependencies
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'                   //Recyclerview Material Dependencies (AndroidX)
+
+
+    implementation "com.facebook.stetho:stetho:$stetho"                         //Facebook Stetho Dependencies
 
 
 }

@@ -14,9 +14,9 @@
             android:layout_height="match_parent"
             app:cardBackgroundColor="@color/colorPrimary">
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/pad_40dp"
+                android:layout_height="@dimen/pad_46dp"
                 android:text="@string/add_notes"
                 android:textStyle="bold"
                 android:textColor="@color/white"
@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/pad_8dp"
-                android:layout_marginTop="@dimen/pad_20dp">
+                android:layout_marginTop="@dimen/pad_20dp"
+                app:boxStrokeColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_title"
@@ -62,7 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="@dimen/pad_8dp"
-                android:layout_marginTop="@dimen/pad_20dp">
+                android:layout_marginTop="@dimen/pad_20dp"
+                app:boxStrokeColor="@color/colorAccent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tiet_description"
