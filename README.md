@@ -38,9 +38,6 @@ greenDAO is an `open source` Android ORM making development for SQLite databases
 #### greenDAO 3 uses Annotation Processing to generate the DAO classes.
 
 ### So the question is how do we start  ?
-
->Here is the app build using [greenDAO](http://greenrobot.org/greendao/)step by step for you to understand.
-
 ### Here is step to USE greenDAO in Android.
 - [ ] Add Gradle dependency in app/build.gradle.
 - [ ] Add GreenDAO Gradle plugin for the Annotation processing in the root project build.gradle.
@@ -57,7 +54,7 @@ greenDAO is an `open source` Android ORM making development for SQLite databases
 ### So, Let's start the coding.
 - [X] Add Gradle dependency in app/build.gradle.
 
-```
+```gradle
 Open app/build.gradle and this lines.
 ext{
     greenDao = '3.2.2'
@@ -69,7 +66,7 @@ dependencies {
 
 - [X] Add GreenDAO Gradle plugin for the Annotation processing in the root project build.gradle.
 
-```
+```gradle
 buildscript {
     repositories {
         jcenter()
@@ -84,7 +81,7 @@ buildscript {
 ```
 
 - [X] Then use this plugin in the app/build.gradle, below com.android.application plugin
-```
+```gradle
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 ```
@@ -93,7 +90,7 @@ apply plugin: 'org.greenrobot.greendao'
 
 ##### This is basic JAVA POJO model but when we use GreenDAO annotations as abstract layer so the pojo work as database table.
 
-```
+```java
 @Entity(nameInDb = "noteEntity")
 public class NoteModel {
 
@@ -134,7 +131,7 @@ First two classes is Unique but third classes is depend on your schema table or 
 - [X] Create Custome Class for GreenDAO new DB Version modification handling
 
 This Class we create because with a new app version, We want to modify the database schema or alter the table. For this purpose provide a custom OpenHelper to the DaoMaster, If we don't want to update database then we Can use GreenDAO created Class.
-```
+```java
 public class MyDBOpenHelper extends DaoMaster.OpenHelper {
 
     public MyDBOpenHelper(Context context, String name) {
@@ -159,7 +156,7 @@ public class MyDBOpenHelper extends DaoMaster.OpenHelper {
 - [X] To use the database we need to construct the DaoSession Object in Application Class.
 
 Create A class MainApplication which extends android.app.Application and mention it in the AndroidManifest.xml
-```
+```java
 public class MainApplication extends Application {
     private static DaoSession session;
     private static MainApplication instance;
@@ -189,7 +186,7 @@ public class MainApplication extends Application {
 
 In AndroidManifest.xml add android:name=".MainApplication":
 
-```
+```java
 application
 ...
 android:name=".MainApplication"
@@ -198,7 +195,7 @@ android:name=".MainApplication"
 
 - [X] Create one class for handling CRUD operation.
 NoteOperation class is created that hold the CRUD operation methods.
-```
+```java
 public class NoteOperation {
 
     private static DaoSession daoSession = MainApplication.getSession();
@@ -232,7 +229,7 @@ public class NoteOperation {
 ```
 
 - [X] Test the data manipulation in the ViewNoteActivity  . 
-```
+```java
 public class ViewNoteActivity extends AppCompatActivity {
     Context context;
     List<NoteModel> noteModels = new ArrayList<>();
@@ -260,7 +257,7 @@ public class ViewNoteActivity extends AppCompatActivity {
 
 - [X] specify the greendao schema version of the database in the app/build.gradle.
 You will need to specify the schema version of the database so that you can distinguish the old version and new version when the entity schema is upgraded.Specify this add greendao schema in the app/build.gradle.
-```
+```gradle
 android {
 ...
 ...
@@ -278,3 +275,49 @@ dependencies {
 
 When you upgrade the schema in the new app version, increase this schema Version. You should handle the upgrade code in onUpgrade method of the DbOpenHelper class.
 
+## So here is your app ready :smiley:with greenDao database
+<p >
+  <img src="assets/view_note.png" alt="Screenshots"  height="540" width="270"/>
+  <img src="assets/add_note.png" alt="Screenshots"  height="540" width="270"/>
+  <img src="assets/view_note_all.png" alt="Screenshots"  height="540" width="270"/>
+  <img src="assets/view_note_select.png" alt="Screenshots"  height="540" width="270"/>
+  <img src="assets/view_note_select_all.png" alt="Screenshots"  height="540" width="270"/>
+</p>
+
+# Download
+<a href="https://github.com/deepakgupta7403/GreenDAODemo/blob/master/apk/app-debug.apk?raw=true">Click here to download!</a>
+
+# Libraries Used
+* [AndroidX Material Component](https://developer.android.com/reference/com/google/android/material/packages)
+* [AndroidX CardView Libraries](https://developer.android.com/jetpack/androidx/releases/cardview)
+* [AndroidX Support Libraries](https://developer.android.com/jetpack/androidx/releases/legacy)
+* [AndroidX RecyclerView Libraries](https://developer.android.com/jetpack/androidx/releases/recyclerview)
+* [Green Dao](http://greenrobot.org/greendao/)
+* [Stetho](http://facebook.github.io/stetho/)
+* [TextDrawable](https://github.com/amulyakhare/TextDrawable)
+* [Markdown](https://guides.github.com/features/mastering-markdown/)
+
+# LICENSE
+```
+MIT License
+
+Copyright (c) 2019
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
